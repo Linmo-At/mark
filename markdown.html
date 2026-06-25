@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html lang="zh">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DATA • CINEMATIC SYSTEM</title>
+
+
+
+<style>
+
+*{
+
+  margin:0;
+
+  padding:0;
+
+  box-sizing:border-box;
+
+}
+
+
+
+body{
+
+  background:#000;
+
+  color:#fff;
+
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter;
+
+  overflow-x:hidden;
+
+}
+
+
+
+/* ===== progress ===== */
+
+.progress{
+
+  position:fixed;
+
+  top:0;
+
+  left:0;
+
+  height:2px;
+
+  width:0%;
+
+  background:#fff;
+
+  z-index:100;
+
+}
+
+
+
+/* ===== video ===== */
+
+.video{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:-2;
+
+}
+
+
+
+video{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:cover;
+
+}
+
+
+
+/* dark cinematic overlay */
+
+.overlay{
+
+  position:fixed;
+
+  inset:0;
+
+  background:radial-gradient(circle at center, transparent 35%, rgba(0,0,0,0.9) 100%);
+
+  z-index:-1;
+
+}
+
+
+
+/* ===== sections ===== */
+
+section{
+
+  height:100vh;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  flex-direction:column;
+
+  text-align:center;
+
+  padding:0 20px;
+
+}
+
+
+
+/* title */
+
+h1{
+
+  font-size:86px;
+
+  font-weight:600;
+
+  letter-spacing:3px;
+
+  background:linear-gradient(180deg,#fff,#aaa);
+
+  -webkit-background-clip:text;
+
+  color:transparent;
+
+
+
+  opacity:0;
+
+  transform:translateY(30px);
+
+  transition:1s ease;
+
+}
+
+
+
+/* text */
+
+p{
+
+  margin-top:20px;
+
+  font-size:14px;
+
+  color:#aaa;
+
+  letter-spacing:2px;
+
+
+
+  opacity:0;
+
+  transform:translateY(30px);
+
+  transition:1s ease;
+
+}
+
+
+
+/* reveal */
+
+.show h1,
+
+.show p{
+
+  opacity:1;
+
+  transform:translateY(0);
+
+}
+
+
+
+/* floating UI */
+
+.ui{
+
+  position:fixed;
+
+  bottom:30px;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+  font-size:12px;
+
+  color:#aaa;
+
+  opacity:0.8;
+
+}
+
+
+
+/* side stats */
+
+.stat{
+
+  position:fixed;
+
+  font-size:14px;
+
+  color:#bbb;
+
+  opacity:0.7;
+
+}
+
+
+
+.left{left:6%;bottom:10%;}
+
+.right{right:6%;bottom:10%;}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="progress" id="progress"></div>
+
+
+
+<div class="overlay"></div>
+
+
+
+<!-- video background -->
+
+<div class="video">
+
+  <video id="video" muted playsinline>
+
+    <source src="https://cdn.coverr.co/videos/coverr-data-center-operations-8576/1080p.mp4">
+
+  </video>
+
+</div>
+
+
+
+<!-- stats -->
+
+<div class="stat left">+1.5B DATA SECURED</div>
+
+<div class="stat right">+300K ACTIVE SYSTEMS</div>
+
+
+
+<!-- SECTION 1 -->
+
+<section class="panel show">
+
+  <h1>PROTECT DATA</h1>
+
+  <p>SCROLL-DRIVEN CINEMATIC EXPERIENCE</p>
+
+</section>
+
+
+
+<!-- SECTION 2 -->
+
+<section class="panel">
+
+  <h1>SCROLL MOTION</h1>
+
+  <p>APPLE STYLE VIDEO SCRUB SYSTEM</p>
+
+</section>
+
+
+
+<!-- SECTION 3 -->
+
+<section class="panel">
+
+  <h1>DEEP ARCHITECTURE</h1>
+
+  <p>LAYERED SYSTEM VISUALIZATION</p>
+
+</section>
+
+
+
+<div class="ui">Scroll to explore cinematic system</div>
+
+
+
+<script>
+
+const video = document.getElementById("video");
+
+const progress = document.getElementById("progress");
+
+const panels = document.querySelectorAll(".panel");
+
+
+
+let duration = 0;
+
+
+
+video.addEventListener("loadedmetadata", ()=>{
+
+  duration = video.duration;
+
+});
+
+
+
+// smooth scroll sync
+
+let ticking = false;
+
+
+
+window.addEventListener("scroll", ()=>{
+
+
+
+  const scrollTop = document.documentElement.scrollTop;
+
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+
+
+  const ratio = scrollTop / maxScroll;
+
+
+
+  // progress bar
+
+  progress.style.width = ratio * 100 + "%";
+
+
+
+  // video scrub (核心 Apple 技术)
+
+  if(duration){
+
+    video.currentTime = ratio * duration;
+
+  }
+
+
+
+  // section reveal
+
+  panels.forEach(p=>{
+
+    const rect = p.getBoundingClientRect();
+
+    if(rect.top < window.innerHeight * 0.75){
+
+      p.classList.add("show");
+
+    }
+
+  });
+
+});
+
+</script>
+
+
+
+</body>
+
+</html>
